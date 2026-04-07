@@ -1,9 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
-
-  const navigate = useNavigate();
-
   return (
     <section className="hero" id="home">
       <div className="hero-content">
@@ -14,7 +11,7 @@ export default function Hero() {
         </p>
         <div className="hero-cta">
           <a href="#contact" className="btn-primary-cta">Solicitar Cotización</a>
-          <a href=""  onClick={() => navigate("/products")} className="btn-secondary-cta">Ver Productos</a>
+          <Link to="/products" className="btn-secondary-cta">Ver Productos</Link>
         </div>
       </div>
     </section>
