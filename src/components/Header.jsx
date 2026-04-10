@@ -77,7 +77,7 @@ export default function Header() {
                   setExpanded(false);
                 }}
               >
-                Categorías
+                CATEGORÍAS
               </button>
               <Nav.Link as={Link} to="/products" onClick={() => setExpanded(false)}>Productos</Nav.Link>
               
@@ -121,7 +121,7 @@ export default function Header() {
         <div className="categories-modal-overlay" onClick={() => setShowCategoriesModal(false)}>
           <div className="categories-modal" onClick={(e) => e.stopPropagation()}>
             <div className="categories-modal-header">
-              <h2>Categorías</h2>
+              <h2>CATEGORÍAS</h2>
               <button className="categories-modal-close" onClick={() => setShowCategoriesModal(false)}>
                 ✕
               </button>

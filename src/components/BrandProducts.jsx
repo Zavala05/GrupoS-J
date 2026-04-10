@@ -91,9 +91,7 @@ export default function BrandProducts() {
                       <p className="product-description">
                         {product.descripcion_producto}
                       </p>
-                      <div className="product-price">
-                        ${product.precio_producto?.toFixed(2)}
-                      </div>
+                      
                     </div>
                   </div>
                 ))}

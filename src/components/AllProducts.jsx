@@ -3,7 +3,6 @@ import { Container } from 'react-bootstrap';
 import supabase from '../supabase';
 
 export default function AllProducts() {
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -73,7 +72,7 @@ export default function AllProducts() {
                     <div className="product-info">
                       <h3 className="product-name">{product.nombre_producto}</h3>
                       <p className="product-description">{product.descripcion_producto}</p>
-                      <p className="product-price">${product.precio_producto}</p>
+                      
                     </div>
                   </div>
                 ))}

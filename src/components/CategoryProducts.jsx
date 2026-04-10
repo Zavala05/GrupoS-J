@@ -40,7 +40,7 @@ export default function CategoryProducts() {
       setLoadingProducts(true);
       const { data, error } = await supabase
         .from('productos')
-        .select('id, nombre_producto, descripcion_producto, precio_producto, imagen_producto_url, marca_producto, categoria_producto')
+        .select('id, nombre_producto, descripcion_producto, imagen_producto_url, marca_producto, categoria_producto')
         .eq('categoria_producto', id);
 
       if (error) throw error;
@@ -100,7 +100,7 @@ export default function CategoryProducts() {
                     {product.descripcion_producto && (
                       <p className="product-description">{product.descripcion_producto}</p>
                     )}
-                    <span className="product-price">${product.precio_producto.toFixed(2)}</span>
+                    
                   </div>
                 </div>
               ))}

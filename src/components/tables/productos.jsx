@@ -115,11 +115,14 @@ export default function Productos (){
     }
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = async () => {
+    // Recargar marcas y categorías cuando se abre el modal
+    await fetchBrands();
+    await fetchCategories();
+    
     setFormData({
       nombre_producto: '',
       descripcion_producto: '',
-      precio_producto: '',
       imagen_producto_url: '',
       marca_producto: '',
       categoria_producto: ''
@@ -133,7 +136,6 @@ export default function Productos (){
     setFormData({
       nombre_producto: '',
       descripcion_producto: '',
-      precio_producto: '',
       imagen_producto_url: '',
       marca_producto: '',
       categoria_producto: ''
@@ -167,7 +169,7 @@ export default function Productos (){
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     
-    if (!formData.nombre_producto || !formData.descripcion_producto || !formData.categoria_producto || !formData.marca_producto || !formData.precio_producto) {
+    if (!formData.nombre_producto || !formData.descripcion_producto || !formData.categoria_producto || !formData.marca_producto) {
       alert('Por favor completa todos los campos obligatorios');
       return;
     }
@@ -185,7 +187,6 @@ export default function Productos (){
           {
             nombre_producto: formData.nombre_producto,
             descripcion_producto: formData.descripcion_producto,
-            precio_producto: parseFloat(formData.precio_producto),
             imagen_producto_url: formData.imagen_producto_url,
             marca_producto: parseInt(formData.marca_producto),
             categoria_producto: parseInt(formData.categoria_producto)
@@ -233,7 +234,6 @@ export default function Productos (){
                   <tr key={producto.id}>
                     <td>{producto.nombre_producto}</td>
                     <td>{producto.descripcion_producto}</td>
-                    <td>L.{producto.precio_producto.toFixed(2)}</td>
                     <td>
                       {producto.imagen_producto_url ? (
                                             <img
@@ -295,19 +295,7 @@ export default function Productos (){
                   </div>
 
                   <div className="form-row">
-                    <div className="form-group">
-                      <label htmlFor="precio_producto">Precio *</label>
-                      <input
-                        type="number"
-                        id="precio_producto"
-                        name="precio_producto"
-                        value={formData.precio_producto}
-                        onChange={handleInputChange}
-                        placeholder="0.00"
-                        step="0.01"
-                        required
-                      />
-                    </div>
+                  
 
                     <div className="form-group">
                       <label htmlFor="marca_producto">Marca *</label>
