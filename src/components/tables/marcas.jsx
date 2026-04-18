@@ -2,14 +2,16 @@ import { useState, useEffect } from "react";
 import supabase from "../../supabase";
 
 export default function Marcas() {
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [marcas, setMarcas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [deletingId, setDeletingId] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
     const [formData, setFormData] = useState({
-      nombre_marca: ''
+      nombre_marca: '',
+      image_marca_url: ''
     });
 
     const fetchMarcas = async () => {
@@ -70,16 +72,20 @@ export default function Marcas() {
 
     const handleOpenModal = () => {
       setFormData({
-        nombre_marca: ''
+        nombre_marca: '',
+        image_marca_url: ''
       });
+      setImagePreview(null);
       setShowModal(true);
     };
 
     const handleCloseModal = () => {
       setShowModal(false);
       setFormData({
-        nombre_marca: ''
+        nombre_marca: '',
+        image_marca_url: ''
       });
+      setImagePreview(null);
     };
 
     const handleInputChange = (e) => {
@@ -90,11 +96,26 @@ export default function Marcas() {
       }));
     };
 
+    const handleImageChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData(prev => ({
+            ...prev,
+            image_marca_url: reader.result
+          }));
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
     const handleSubmitForm = async (e) => {
       e.preventDefault();
       
-      if (!formData.nombre_marca) {
-        alert('Por favor completa el nombre de la marca');
+      if (!formData.nombre_marca || !formData.image_marca_url) {
+        alert('Por favor completa el nombre de la marca y selecciona una imagen');
         return;
       }
 
@@ -104,7 +125,8 @@ export default function Marcas() {
           .from('Marcas')
           .insert([
             {
-              nombre_marca: formData.nombre_marca
+              nombre_marca: formData.nombre_marca,
+              image_marca_url: formData.image_marca_url
             }
           ]);
 
@@ -135,6 +157,7 @@ export default function Marcas() {
             <table className="admin-table">
               <thead>
                 <tr>
+                  <th>Imagen</th>
                   <th>Nombre</th>
                   <th>Acciones</th>
                 </tr>
@@ -142,6 +165,7 @@ export default function Marcas() {
               <tbody>
                 {marcas.map((marca) => (
                   <tr key={marca.id}>
+                    <td><img src={marca.image_marca_url} alt={marca.nombre_marca} style={{width: '50px', height: '50px', objectFit: 'cover'}} /></td>
                     <td>{marca.nombre_marca}</td>
                     
                     <td>
@@ -172,6 +196,22 @@ export default function Marcas() {
                       placeholder="Ingrese el nombre de la marca"
                       required
                     />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="image_marca_url">Imagen de la Marca *</label>
+                    <input
+                      type="file"
+                      id="image_marca_url"
+                      name="image_marca_url"
+                      onChange={handleImageChange}
+                      accept="image/*"
+                      required
+                    />
+                    {imagePreview && (
+                      <div className="image-preview">
+                        <img src={imagePreview} alt="Vista previa" />
+                      </div>
+                    )}
                   </div>
 
                   <div className="modal-actions">
